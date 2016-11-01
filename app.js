@@ -41,7 +41,7 @@ function thief(){
 }
 
 var feudQuestions = [{
-	{question : "Name a kind of tree that streets are named after",
+	question : "Name a kind of tree that streets are named after",
 	answer1 : "Oak",
 	gold1 : 32,
 	answer2 : "Maple",
@@ -402,9 +402,9 @@ var feudQuestions = [{
 	gold8 : 0
 	},
 	
-}];
+];
 
-function feud(questions, player, fireball){
+function feud(questions, player){
 	var feudQuestionIndex = (Math.Random() * questions.length).floor();
 	var feudQuestion = questions[feudQuestionIndex];
 	var answer = prompt("A lone figure emerges from the shadows.  You realize it is Steve Harvey, of the hit game show family feud.  His moustache is glorious.  He looks you in the eye and says \n \n'" + feudQuestion.question + "'");
@@ -441,16 +441,15 @@ function feud(questions, player, fireball){
 			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold8 + " gold.");
 			player.score += feudQuestion.gold8;
 		}
-		else if (answer.ToUpperCase() === "CAST FIREBALL"){
-			fireball(player);
-		}
 		else {
 			var damage = takeDamage(player, 30);
 			Alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
 		}
 	}
 }
-
+var args = new [] {player};
+function playFeud = feud.bind(feudQuestions);
+function playTheFeud = playFeud.apply(args);
 function takeDamage(player, maxDamage){
 	var damage = (Math.Random() * maxDamage).floor();
 			if (player.toughness >= damage){
@@ -458,6 +457,6 @@ function takeDamage(player, maxDamage){
 			}else{
 				damage = damage - player.toughness;
 			}
-		player.health -= damage;
+		decHealth(damage);
 		return damage;
 }
