@@ -14,6 +14,7 @@ function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
 	var player = new Player();
 	getPlayerType(player)
+	alert(player.toughness);
 }
 
 function getPlayerType(player){
@@ -24,7 +25,7 @@ function getPlayerType(player){
 			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk. \n Do you want to be a mage?");
 			if (choice.toLowerCase() === "yes"){
 				player.playerType = "mage";
-				Object.assign(player, new Mage());
+				return player = Object.assign(player, new Mage());
 			}
 			else{
 				getPlayerType();
@@ -34,7 +35,7 @@ function getPlayerType(player){
 			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction. \n Do you want to be a fighter?");
 			if (choice.toLowerCase() === "yes"){
 				player.playerType = "fighter";
-				Object.assign(player, new Fighter());
+				return player = Object.assign(player, new Fighter());
 			}
 			else{
 				getPlayerType();
@@ -44,7 +45,7 @@ function getPlayerType(player){
 			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus. \n Do you want to be a thief?");
 			if (choice.toLowerCase() === "yes"){
 				player.playerType = "thief";
-				Object.assign(player, new Thief());
+				return player = Object.assign(player, new Thief());
 			}
 			else{
 				getPlayerType();
@@ -56,22 +57,22 @@ function getPlayerType(player){
 	}
 }
 
-function Mage(){
-	dexterity = 3
-	intelligence = 10
-	toughness = 2
+function Mage(player){
+	this.dexterity = 3;
+	this.intelligence = 10;
+	this.toughness = 2;
 }
 
 function Fighter(){
-	dexterity = 5
-	intelligence = 2
-	toughness = 10
+	this.dexterity = 5;
+	this.intelligence = 2;
+	this.toughness = 10;
 }
 
 function Thief(){
-	dexterity = 10
-	intelligence = 5
-	toughness = 3
+	this.dexterity = 10;
+	this.intelligence = 5;
+	this.toughness = 3;
 }
 
 var feudQuestions = [{
