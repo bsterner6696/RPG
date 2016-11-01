@@ -2,7 +2,7 @@ function Player(){
 	name: prompt("What is your name?");
 	var score = 0;
 	var health = 100;
-	playerType: null;
+	playerType: "";
 	function addGold(amount){score += amount;};
 	function getGold(){return score;};
 	function decHealth(damage){health -= damage;};
@@ -25,6 +25,9 @@ function getPlayerType(player){
 			if (choice.toLowerCase() === "yes"){
 				player.playerType = "mage";
 				Object.assign(player, new Mage());
+				var args = [player]
+				var playTheFeud = playFeud.apply(args);
+				playTheFeud();
 			}
 			else{
 				getPlayerType();
@@ -439,41 +442,41 @@ var feudQuestions = [{
 ];
 
 function feud(questions, player){
-	var feudQuestionIndex = (Math.Random() * questions.length).floor();
+	var feudQuestionIndex = Math.floor(Math.random() * questions.length);
 	var feudQuestion = questions[feudQuestionIndex];
 	var answer = prompt("A lone figure emerges from the shadows.  You realize it is Steve Harvey, of the hit game show family feud.  His moustache is glorious.  He looks you in the eye and says \n \n'" + feudQuestion.question + "'");
 	if (answer){
-		if (answer.ToUpperCase() === feudQuestion.answer1.ToUpperCase()){
+		if (answer.toUpperCase() === feudQuestion.answer1.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
 			player.score += feudQuestion.gold1;
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer2.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer2.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
-			player.score += feudQuestion.gold2;
+			player.addGold(feudQuestion.gold2);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer3.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer3.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold3 + " gold.");
-			player.score += feudQuestion.gold3;
+			player.addGold(feudQuestion.gold3);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer4.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer4.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold4 + " gold.");
-			player.score += feudQuestion.gold4;
+			player.addGold(feudQuestion.gold4);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer5.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer5.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold5 + " gold.");
-			player.score += feudQuestion.gold5;
+			player.addGold(feudQuestion.gold5);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer6.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer6.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold6 + " gold.");
-			player.score += feudQuestion.gold6;
+			player.addGold(feudQuestion.gold6);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer7.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer7.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold7 + " gold.");
-			player.score += feudQuestion.gold7;
+			player.addGold(feudQuestion.gold7);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer8.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer8.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold8 + " gold.");
-			player.score += feudQuestion.gold8;
+			player.addGold(feudQuestion.gold8);
 		}
 		else {
 			var damage = takeDamage(player, 30);
@@ -481,17 +484,17 @@ function feud(questions, player){
 		}
 	}
 }
-var args = new [] {player};
-function playFeud = feud.bind(feudQuestions);
-function playTheFeud = playFeud.apply(args);
+
+var playFeud = feud.bind(null, feudQuestions);
+
 function takeDamage(player, maxDamage){
-	var damage = (Math.Random() * maxDamage).floor();
+	var damage = Math.floor(Math.random() * maxDamage);
 			if (player.toughness >= damage){
 				damage = 1;
 			}else{
 				damage = damage - player.toughness;
 			}
-		decHealth(damage);
+		player.decHealth(damage);
 		return damage;
 }
 startGame();
