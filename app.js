@@ -1,47 +1,81 @@
-function player(name){
-	this.name = prompt("What is your name?");
+function Player(){
+	name: prompt("What is your name?");
 	var score = 0;
 	var health = 100;
-	playerType: getPlayerType();
+	playerType: null;
 	function addGold(amount){score += amount;};
 	function getGold(){return score;};
+	function decHealth(damage){health -= damage;};
+	function addHealth(potion){health += potion;};
 	
 }
 
 function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
-	var player = new player(name, 0);
+	var player = new Player();
+	getPlayerType(player)
 }
 
-function getPlayerType(){
+function getPlayerType(player){
+	var choice;
 	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.")
 	switch (type){
 		case "1":
-			
+			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk. \n Do you want to be a mage?");
+			if (choice.toLowerCase() === "yes"){
+				player.playerType = "mage";
+				Object.assign(player, new Mage());
+			}
+			else{
+				getPlayerType();
+			}
+			break;
+		case "2":
+			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction. \n Do you want to be a fighter?");
+			if (choice.toLowerCase() === "yes"){
+				player.playerType = "fighter";
+				Object.assign(player, new Fighter());
+			}
+			else{
+				getPlayerType();
+			}
+			break;
+		case "3":
+			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus. \n Do you want to be a thief?");
+			if (choice.toLowerCase() === "yes"){
+				player.playerType = "thief";
+				Object.assign(player, new Thief());
+			}
+			else{
+				getPlayerType();
+			}
+			break;
+		default:
+			getPlayerType();
+			break;
 	}
 }
 
-function mage(){
+function Mage(){
 	dexterity = 3
 	intelligence = 10
 	toughness = 2
-	fireball = function(){}
 }
 
-function fighter(){
+function Fighter(){
 	dexterity = 5
 	intelligence = 2
 	toughness = 10
 }
 
-function thief(){
+function Thief(){
 	dexterity = 10
 	intelligence = 5
 	toughness = 3
 }
 
 var feudQuestions = [{
-	{question : "Name a kind of tree that streets are named after",
+	question : "Name a kind of tree that streets are named after",
 	answer1 : "Oak",
 	gold1 : 32,
 	answer2 : "Maple",
@@ -402,7 +436,7 @@ var feudQuestions = [{
 	gold8 : 0
 	},
 	
-}];
+];
 
 function feud(questions, player, fireball){
 	var feudQuestionIndex = (Math.Random() * questions.length).floor();
@@ -410,35 +444,35 @@ function feud(questions, player, fireball){
 	var answer = prompt("A lone figure emerges from the shadows.  You realize it is Steve Harvey, of the hit game show family feud.  His moustache is glorious.  He looks you in the eye and says \n \n'" + feudQuestion.question + "'");
 	if (answer){
 		if (answer.ToUpperCase() === feudQuestion.answer1.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
 			player.score += feudQuestion.gold1;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer2.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
 			player.score += feudQuestion.gold2;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer3.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold3 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold3 + " gold.");
 			player.score += feudQuestion.gold3;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer4.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold4 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold4 + " gold.");
 			player.score += feudQuestion.gold4;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer5.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold5 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold5 + " gold.");
 			player.score += feudQuestion.gold5;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer6.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold6 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold6 + " gold.");
 			player.score += feudQuestion.gold6;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer7.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold7 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold7 + " gold.");
 			player.score += feudQuestion.gold7;
 		}
 		else if (answer.ToUpperCase() === feudQuestion.answer8.ToUpperCase()){
-			Alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold8 + " gold.");
+			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold8 + " gold.");
 			player.score += feudQuestion.gold8;
 		}
 		else if (answer.ToUpperCase() === "CAST FIREBALL"){
@@ -446,7 +480,7 @@ function feud(questions, player, fireball){
 		}
 		else {
 			var damage = takeDamage(player, 30);
-			Alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
+			alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
 		}
 	}
 }
@@ -461,3 +495,4 @@ function takeDamage(player, maxDamage){
 		player.health -= damage;
 		return damage;
 }
+startGame();
