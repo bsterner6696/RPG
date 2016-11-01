@@ -403,13 +403,19 @@ function feud(questions, player, fireball){
 			fireball(player);
 		}
 		else {
-			var damage = (Math.Random() * 30).floor();
+			var damage = takeDamage(player, 30);
+			Alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
+		}
+	}
+}
+
+function takeDamage(player, maxDamage){
+	var damage = (Math.Random() * maxDamage).floor();
 			if (player.toughness >= damage){
 				damage = 1;
 			}else{
 				damage = damage - player.toughness;
 			}
-			Alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
-		}
-	}
+		player.health -= damage;
+		return damage;
 }
