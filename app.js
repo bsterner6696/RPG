@@ -1,3 +1,5 @@
+"use strict";
+
 function Player(){
 	name: prompt("What is your name?");
 	var score = 0;
@@ -74,6 +76,10 @@ function Thief(){
 	this.intelligence = 5;
 	this.toughness = 3;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var feudQuestions = [{
 	question : "Name a kind of tree that streets are named after",
@@ -496,4 +502,233 @@ function takeDamage(player, maxDamage){
 		player.health -= damage;
 		return damage;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////--ignore roomArray for now--////
+var roomArray = 
+[
+	{
+		"name": "theThunderDome",
+		"hasObstacle": "true",
+		"obstacle": "",
+		"hasItem": "true",
+		"item": "",
+	}
+];
+
+var cave =
+	{
+		"name": "theThunderDome",
+		"hasObstacle": true,
+		"obstacle": "",
+		"hasItem": true,
+		"item": "",
+		"name2" : function setRoomName(roomname){
+			return roomname;
+		}
+	};
+
+var obstacles = 
+[
+	{
+		"id": "1",
+		"name": "loki",
+		"goldLost": 25,
+		"damageCaused": 0 },
+	{
+		"id": "2",
+		"name": "smaug",
+		"goldLost": 40,
+		"damageCaused": 20 },
+	{
+		"id": "3",
+		"name": "urukHai",
+		"goldLost": 5,
+		"damageCaused": 13 },
+	{
+		"id": "4",
+		"name": "balrog",
+		"goldLost": 1,
+		"damageCaused": 24 },
+	{
+		"id": "5",
+		"name": "giantBearTrap",
+		"goldLost": 0,
+		"damageCaused": 5 },
+	{
+		"id": "6",
+		"name": "packOfRabidWeasels",
+		"goldLost": 3,
+		"damageCaused": 9 },
+	{
+		"id": "7",
+		"name": "trogdor",
+		"goldLost": 0,
+		"damageCaused": 19 },
+	{
+		"id": "8",
+		"name": "liquidHotMagma",
+		"goldLost": 5,
+		"damageCaused": 12 },
+	{
+		"id": "9",
+		"name": "sphinx",
+		"goldLost": 18,
+		"damageCaused": 5 },
+	{
+		"id": "10",
+		"name": "puzzle",
+		"goldLost": 10,
+		"damageCaused": 0 },
+];
+
+var items = 
+[
+	{
+		"id": "1",
+		"type": "goldCoin",
+		"goldEarned": 10,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "2",
+		"type": "goldNugget",
+		"goldEarned": 15,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "3",
+		"type": "goldenShower",
+		"goldEarned": 25,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "4",
+		"type": "elixer",
+		"goldEarned": 0,
+		"heathIncrease": 10,
+		"attributeIncrease": 0 },
+	{
+		"id": "5",
+		"type": "tome", //increases intelligence attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "6",
+		"type": "mithril", //increases toughness attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "7",
+		"type": "magicGloves", //increases dexterity attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "8",
+		"type": "scientificJournalEntry", //increases intelligence
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+	{
+		"id": "9",
+		"type": "helmet", //increases toughness
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+	{
+		"id": "10",
+		"type": "stretchPants", //increases dexterity
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+];
+
+function runGame()
+{
+	alert("Welcome to the Thunder Dome, betch.");
+	
+	while(true) //while(player.health > 0)
+	{
+		enterRoom(createRoom());
+	}
+}
+
+function createRoom()
+{
+	var currentRoom = cave;
+	var roomname = prompt("Please set the name of the room you are entering: ");
+	currentRoom.setRoomName(roomname);
+	currentRoom.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
+	currentRoom.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
+	return currentRoom;
+}
+
+function enterRoom(currentRoom)
+{
+	alert(currentRoom.obstacle.name);
+	alert(currentRoom.item.type);
+}
+
+function getRandomNumber()
+{
+	return Math.random();
+}
+
+function setObstacleProbability(randomNumber)
+{
+	var hasObstacleProbability = (randomNumber * 100).toFixed(1);
+	
+	if(hasObstacleProbability >= 50)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function setItemProbability(randomNumber)
+{
+	var hasItemProbability = (randomNumber * 100).toFixed(1);
+	
+	if(hasItemProbability >= 50)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function setObstacle(randomNumber, hasObstacle)
+{
+	var obstacleSelection = Math.floor(randomNumber * 10);
+	
+	if(hasObstacle)
+	{
+		return obstacles[obstacleSelection];
+	}
+}
+
+function setItem(randomNumber, hasItem)
+{
+	var itemSelection = Math.floor(randomNumber * 10);
+	
+	if(hasItem)
+	{
+		return items[itemSelection];
+	}
+}
+
+
+runGame();
+
 startGame();
