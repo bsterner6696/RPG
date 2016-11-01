@@ -521,12 +521,12 @@ var roomArray =
 
 var cave =
 	{
-		"name": "theThunderDome",
-		"hasObstacle": true,
-		"obstacle": "",
-		"hasItem": true,
-		"item": "",
-		"name2" : function setRoomName(roomname){
+		//name: "theThunderDome",
+		hasObstacle: true,
+		obstacle: {},
+		hasItem: true,
+		item: {},
+		name : function setRoomName(roomname){
 			return roomname;
 		}
 	};
@@ -653,26 +653,31 @@ function runGame()
 {
 	alert("Welcome to the Thunder Dome, betch.");
 	
-	while(true) //while(player.health > 0)
-	{
-		enterRoom(createRoom());
-	}
+	// while(true) //while(player.health > 0)
+	// {
+		// enterRoom(createRoom(cave));
+	// }
+	
+	enterRoom(createRoom(cave));
 }
 
-function createRoom()
+function createRoom(cave)
 {
-	var currentRoom = cave;
 	var roomname = prompt("Please set the name of the room you are entering: ");
-	currentRoom.setRoomName(roomname);
-	currentRoom.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
-	currentRoom.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
-	return currentRoom;
+	cave.name = roomname;
+	cave.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
+	cave.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
+	return cave;
 }
 
-function enterRoom(currentRoom)
+function enterRoom(cave)
 {
-	alert(currentRoom.obstacle.name);
-	alert(currentRoom.item.type);
+	alert("Room name: " + cave.name + 
+			"\nDoes this room have an obstacle? " + cave.hasObstacle + 
+			"\nDoes this room have an item? " + cave.hasItem +
+			"\nObstacle: " + cave.obstacle.obstacles.name + 
+			"\nItem: " + cave.item
+			);
 }
 
 function getRandomNumber()
@@ -731,4 +736,4 @@ function setItem(randomNumber, hasItem)
 
 runGame();
 
-startGame();
+//startGame();
