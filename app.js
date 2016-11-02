@@ -3,21 +3,70 @@ function Player(name){
 	var score = 0;
 	var health = 100;
 	this.playerType = "";
-	this.addGold = function(amount){score += amount;};
+	this.addGold = function(amount){
+		if(score + amount < 0){
+			score = 0;
+		}
+		else{
+			score += amount;
+		}
+	};
 	this.getGold = function(){return score;};
-	this.decHealth = function(damage){health -= damage;};
-	this.addHealth = function(potion){health += potion;};
+	this.decHealth = function(damage){
+		if(health - damage <= 0){
+			health = 0;
+			this.gameOver();
+		}
+		else{
+			health -= damage;
+		}
+	};
+	this.addHealth = function(potion){
+		if(health + potion > 100){
+			health = 100;
+		}
+		else{
+			health += potion;
+		}
+	};
 	this.getHealth = function(){return health;};
+	this.gameOver = function(){
+		alert("You died. \n Final score:" + score);
+		var playAgain = prompt("Would you like to play again, yes or no?");
+		if(playAgain.toLowerCase() == "yes"){
+			startGame();
+		}
+		else{
+			alert("Thanks for playing!");
+			window.close();			
+		}
+	}
 }
 
 function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
 	var name = prompt("What is your name?");
 	var player = getPlayerType(name);
+	runGame(player);
+
 	alert(player.toughness);
 	alert(player.name);
 	alert(player.getGold());
 	alert(player.getHealth());
+	player.addGold(100);
+	player.decHealth(100);
+}
+
+function gameOver(player){
+	alert("You died. \n Final score:" + player.getGold());
+	var playAgain = prompt("Would you like to play again, yes or no?");
+	if(playAgain.toLowerCase == "yes"){
+		startGame();
+	}
+	else{
+		alert("Thanks for playing!");
+		window.close();
+	}
 }
 
 function getPlayerType(name){
@@ -548,22 +597,22 @@ var obstacles =
 	{
 		id: "1",
 		name: "Loki",
-		goldLost: 25,
+		goldLost: -25,
 		damageCaused: 0 },
 	{
 		id: "2",
 		name: "Smaug",
-		goldLost: 40,
+		goldLost: -40,
 		damageCaused: 20 },
 	{
 		id: "3",
 		name: "Uruk-Hai",
-		goldLost: 5,
+		goldLost: -5,
 		damageCaused: 13 },
 	{
 		id: "4",
 		name: "Balrog",
-		goldLost: 1,
+		goldLost: -1,
 		damageCaused: 24 },
 	{
 		id: "5",
@@ -573,7 +622,7 @@ var obstacles =
 	{
 		id: "6",
 		name: "Pack of Rabid Weasels",
-		goldLost: 3,
+		goldLost: -3,
 		damageCaused: 9 },
 	{
 		id: "7",
@@ -583,17 +632,17 @@ var obstacles =
 	{
 		id: "8",
 		name: "Liquid Hot Mag-ma",
-		goldLost: 5,
+		goldLost: -5,
 		damageCaused: 12 },
 	{
 		id: "9",
 		name: "Stephen the Sphinx",
-		goldLost: 18,
+		goldLost: -18,
 		damageCaused: 5 },
 	{
 		id: "10",
 		name: "Some Puzzle",
-		goldLost: 10,
+		goldLost: -10,
 		damageCaused: 0 },
 ];
 
@@ -628,40 +677,52 @@ var items =
 		name: "Scholarly Tome", //increases intelligence attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 3,
+		dexterityIncrease : 0,
+		toughnessIncrease : 0 },
 	{
 		id: "6",
 		name: "Mithril Coat", //increases toughness attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 0,
+		toughnessIncrease : 3 },
 	{
 		id: "7",
 		name: "Magic Gloves", //increases dexterity attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 3,
+		toughnessIncrease : 0 },
 	{
 		id: "8",
 		name: "Scientific Journal", //increases intelligence
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 1,
+		dexterityIncrease : 0,
+		toughnessIncrease : 0 },
 	{
 		id: "9",
 		name: "Special Helmet", //increases toughness
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 0,
+		toughnessIncrease : 1 },
 	{
 		id: "10",
 		name: "Stretchy Pants", //increases dexterity
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 1,
+		toughnessIncrease : 0 },
 ];
 
-function runGame()
+function runGame(player)
 {
 	alert("Welcome to the Thunder Dome, betch!");
 	// while(true) //while(player.health > 0)
@@ -669,7 +730,8 @@ function runGame()
 		// enterRoom(createRoom(cave));
 	// }
 	
-	enterRoom(createRoom());
+	room(createRoom(getRoomName()), player);
+
 }
 
 // function getRoomName()
@@ -696,6 +758,37 @@ function enterRoom(cave)
 			"\nObstacle: " + cave.obstacle.name + 
 			"\nItem: " + cave.item.name
 			);
+}
+
+function room(cave, player){
+	alert("You enter a new room.");
+	if (cave.obstacle.name){
+		alert("You encounter " + cave.obstacle.name + "!");
+	}
+	if (cave.item.type){
+		alert("You got " + cave.item.type + "!");
+		if (cave.item.goldEarned){
+			alert("Gold increased by " + cave.item.goldEarned);
+			player.addGold(cave.item.goldEarned);
+		}
+		if (cave.item.healthIncrease){
+			alert("Regained " + cave.item.healthIncrease + " health!");
+			player.addHealth(cave.item.healthIncrease);
+		}
+		if (cave.item.intelligenceIncrease){
+			alert("Intelligence raised by " + cave.item.intelligenceIncrease + "!");
+			player.intelligence += cave.item.intelligenceIncrease;
+		}
+		if (cave.item.dexterityIncrease){
+			alert("Dexteriry raised by " + cave.item.dexterityIncreaseIncrease + "!");
+			player.dexterity += cave.item.dexterityIncrease;
+		}
+		if (cave.item.toughnessIncrease){
+			alert("Toughness raised by " + cave.item.toughnessIncrease + "!");
+			player.toughness += cave.item.toughnessIncrease;
+		}
+		
+	}
 }
 
 function getRandomNumber()
@@ -752,6 +845,4 @@ function setItem(randomNumber, hasItem)
 }
 
 
-runGame();
-
-//startGame();
+startGame();
