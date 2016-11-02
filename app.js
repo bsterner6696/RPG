@@ -730,7 +730,7 @@ function runGame(player)
 		// enterRoom(createRoom(cave));
 	// }
 	
-	room(createRoom(getRoomName()), player);
+	room(createRoom(), player);
 
 }
 
@@ -760,7 +760,8 @@ function enterRoom(cave)
 			);
 }
 
-function room(cave, player){
+function room(cave, player)
+{
 	alert("You enter a new room.");
 	if (cave.obstacle.name){
 		alert("You encounter " + cave.obstacle.name + "!");
