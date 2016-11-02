@@ -47,11 +47,23 @@ function gameOver(player){
 }
 
 function startGame(){
-	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
+	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache.\n\n\'Hello, we're going to play a game. Try not to die.\'");
 	var name = prompt("What is your name?");
 	var player = getPlayerType(name);
 	runGame(player);
 
+}
+
+function gameOver(player){
+	alert("You died.\n\nFinal score:" + player.getGold());
+	var playAgain = prompt("Would you like to play again, yes or no?");
+	if(playAgain.toLowerCase == "yes"){
+		startGame();
+	}
+	else{
+		alert("Thanks for playing!");
+		window.close();
+	}
 }
 
 function getPlayerType(name){
@@ -60,7 +72,7 @@ function getPlayerType(name){
 	switch (type.toLowerCase()){
 		case "1":
 		case "mage":
-			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk. \n Do you want to be a mage?");
+			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk.\nDo you want to be a mage?");
 			if (choice.toLowerCase() === "yes"){				
 				var player1 = new Mage(name);
 				player1.playerType = "mage";
@@ -73,7 +85,7 @@ function getPlayerType(name){
 			break;
 		case "2":
 		case "fighter":
-			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction. \n Do you want to be a fighter?");
+			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction.\nDo you want to be a fighter?");
 			if (choice.toLowerCase() === "yes"){
 				var player1 = new Fighter(name);
 				player1.playerType = "fighter";
@@ -86,7 +98,7 @@ function getPlayerType(name){
 			break;
 		case "3":
 		case "thief":
-			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus. \n Do you want to be a thief?");
+			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus.\nDo you want to be a thief?");
 			if (choice.toLowerCase() === "yes"){
 				var player1 = new Thief(name);
 				player1.playerType = "thief";
@@ -124,10 +136,6 @@ function Thief(name){
 	this.intelligence = 5;
 	this.toughness = 3;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var feudQuestions = [{
 	question : "Name a kind of tree that streets are named after",
@@ -587,10 +595,6 @@ function iRSmrt(player, difficulty, goldLost){
 	
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 var roomArray = 
 [
 
@@ -746,18 +750,17 @@ function runGame(player)
 	alert("Welcome to the Thunder Dome, betch!");
 	var roomNumber = 0;
 	while (!player.gameOver){
-	roomNumber += 1;
-	if (roomNumber < 100){
-	room(createRoom(), player);
-	alert("Room " + roomNumber + " Cleared! \n You have " + player.getGold() + " gold and " + player.getHealth() + " health, " + player.dexterity + " dexterity, " + player.toughness + " toughness, and " + player.intelligence + " intelligence.");
-	}
-	else{
-		alert("You enter into a large ornate amphitheatre.  Steve Harvey stands in the center of it. \n \n 'Congratulations, you have made it to the final room, now you can face me in combat'.  \n \n Steve Harvey proceeds to absolutely obliterate you and crap on everything you know and love.");
-		player.decHealth(100000);
-	}
+		roomNumber += 1;
+		if (roomNumber < 100){
+		room(createRoom(), player);
+		alert("Room " + roomNumber + " Cleared!\nYou have " + player.getGold() + " gold and " + player.getHealth() + " health, " + player.dexterity + " dexterity, " + player.toughness + " toughness, and " + player.intelligence + " intelligence.");
+		}
+		else{
+			alert("You enter into a large ornate amphitheatre. Steve Harvey stands in the center of it.\n\n'Congratulations, you have made it to the final room, now you can face me in combat'.\n\nSteve Harvey proceeds to absolutely obliterate you and crap on everything you know and love.");
+			player.decHealth(100000);
+		}
 	}
 	gameOver(player);
-
 }
 
 function createRoom()
@@ -790,7 +793,7 @@ function room(cave, player)
 		
 	}
 	if (cave.item){
-		alert("The room contains a treasure chest.  in the chest you find: " + cave.item.name + "!");
+		alert("The room contains a treasure chest. In the chest you find: " + cave.item.name + "!");
 		if (cave.item.goldEarned){
 			alert("Gold increased by " + cave.item.goldEarned);
 			player.addGold(cave.item.goldEarned);
