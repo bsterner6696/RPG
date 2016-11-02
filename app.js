@@ -845,5 +845,4 @@ function setItem(randomNumber, hasItem)
 	}
 }
 
-
 startGame();
