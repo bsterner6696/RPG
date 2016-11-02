@@ -463,7 +463,7 @@ function feud(questions, player){
 	if (answer){
 		if (answer.toUpperCase() === feudQuestion.answer1.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
-			player.score += feudQuestion.gold1;
+			player.addGold(feudQuestion.gold1);
 		}
 		else if (answer.toUpperCase() === feudQuestion.answer2.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
@@ -528,16 +528,16 @@ var roomArray =
 
 ];
 
-function Room(name)
+function Room()
 	{
-		this.name = name,
-		this.hasObstacle = true,
+		// this.name = name,
+		this.hasObstacle = null,
 		this.obstacle = {},
-		this.hasItem = true,
-		this.item = {},
-		function getRoomName(){
-			return this.name;
-		}
+		this.hasItem = null,
+		this.item = {}
+		// function getRoomName(){
+			// return this.name;
+		// }
 	};
 
 var obstacles = 
@@ -598,31 +598,31 @@ var items =
 [
 	{
 		id: "1",
-		type: "Gold Coin",
+		name: "Gold Coin",
 		goldEarned: 10,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "2",
-		type: "Gold Nugget",
+		name: "Gold Nugget",
 		goldEarned: 15,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "3",
-		type: "Golden Shower",
+		name: "Golden Shower",
 		goldEarned: 25,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "4",
-		type: "Elixer of Life",
+		name: "Elixer of Life",
 		goldEarned: 0,
 		healthIncrease: 10,
 		attributeIncrease: 0 },
 	{
 		id: "5",
-		type: "Scholarly Tome", //increases intelligence attribute
+		name: "Scholarly Tome", //increases intelligence attribute
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 3,
@@ -630,7 +630,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "6",
-		type: "Mithril Coat", //increases toughness attribute
+		name: "Mithril Coat", //increases toughness attribute
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -638,7 +638,7 @@ var items =
 		toughnessIncrease : 3 },
 	{
 		id: "7",
-		type: "Magic Gloves", //increases dexterity attribute
+		name: "Magic Gloves", //increases dexterity attribute
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -646,7 +646,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "8",
-		type: "Scientific Journal", //increases intelligence
+		name: "Scientific Journal", //increases intelligence
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 1,
@@ -654,7 +654,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "9",
-		type: "Special Helmet", //increases toughness
+		name: "Special Helmet", //increases toughness
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -662,7 +662,7 @@ var items =
 		toughnessIncrease : 1 },
 	{
 		id: "10",
-		type: "Stretchy Pants", //increases dexterity
+		name: "Stretchy Pants", //increases dexterity
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -672,38 +672,39 @@ var items =
 
 function runGame(player)
 {
-	alert("Welcome to the Thunder Dome, betch.");
-	
+	alert("Welcome to the Thunder Dome, betch!");
 	// while(true) //while(player.health > 0)
 	// {
 		// enterRoom(createRoom(cave));
 	// }
 	
-	enterRoom(createRoom(getRoomName()), player);
+	room(createRoom(getRoomName()), player);
+
 }
 
-function getRoomName()
-{
-	var roomname = prompt("Please set the name of the room you are entering: ");
-	return roomname;
-}
+// function getRoomName()
+// {
+	// var roomname = prompt("You are about to enter a room. What is the name of this room? ");
+	// return roomname;
+// }
 
-function createRoom(roomname)
+function createRoom()
 {
-	var cave = new Room(roomname);
+	var cave = new Room();
 	roomArray.push(cave);
-	cave.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
-	cave.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
+	cave.hasObstacle = setObstacleProbability(getRandomNumber());
+	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle) || "No obstacle present in this room!";
+	cave.hasItem = setItemProbability(getRandomNumber());
+	cave.item = setItem(getRandomNumber(), cave.hasItem) || "No item found in this room!";
 	return cave;
 }
 
 function enterRoom(cave)
 {
-	alert("Room name: " + cave.name + 
-			"\nDoes this room have an obstacle? " + cave.hasObstacle + 
+	alert("Does this room have an obstacle? " + cave.hasObstacle + 
 			"\nDoes this room have an item? " + cave.hasItem +
-			"\nObstacle: " + (cave.obstacle.name = "nones") + 
-			"\nItem: " + (cave.item.type = "nones")
+			"\nObstacle: " + cave.obstacle.name + 
+			"\nItem: " + cave.item.name
 			);
 }
 
@@ -793,3 +794,4 @@ function setItem(randomNumber, hasItem)
 
 
 startGame();
+
