@@ -14,10 +14,7 @@ function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
 	var name = prompt("What is your name?");
 	var player = getPlayerType(name);
-	alert(player.toughness);
-	alert(player.name);
-	alert(player.getGold());
-	alert(player.getHealth());
+	runGame(player);
 }
 
 function getPlayerType(name){
@@ -628,40 +625,52 @@ var items =
 		type: "Scholarly Tome", //increases intelligence attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 3,
+		dexterityIncrease : 0,
+		toughnessIncrease : 0 },
 	{
 		id: "6",
 		type: "Mithril Coat", //increases toughness attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 0,
+		toughnessIncrease : 3 },
 	{
 		id: "7",
 		type: "Magic Gloves", //increases dexterity attribute
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 3 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 3,
+		toughnessIncrease : 0 },
 	{
 		id: "8",
 		type: "Scientific Journal", //increases intelligence
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 1,
+		dexterityIncrease : 0,
+		toughnessIncrease : 0 },
 	{
 		id: "9",
 		type: "Special Helmet", //increases toughness
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 0,
+		toughnessIncrease : 1 },
 	{
 		id: "10",
 		type: "Stretchy Pants", //increases dexterity
 		goldEarned: 0,
 		healthIncrease: 0,
-		attributeIncrease: 1 },
+		intelligenceIncrease: 0,
+		dexterityIncrease : 1,
+		toughnessIncrease : 0 },
 ];
 
-function runGame()
+function runGame(player)
 {
 	alert("Welcome to the Thunder Dome, betch.");
 	
@@ -670,7 +679,7 @@ function runGame()
 		// enterRoom(createRoom(cave));
 	// }
 	
-	enterRoom(createRoom(getRoomName()));
+	enterRoom(createRoom(getRoomName()), player);
 }
 
 function getRoomName()
@@ -693,9 +702,40 @@ function enterRoom(cave)
 	alert("Room name: " + cave.name + 
 			"\nDoes this room have an obstacle? " + cave.hasObstacle + 
 			"\nDoes this room have an item? " + cave.hasItem +
-			"\nObstacle: " + cave.obstacle + 
-			"\nItem: " + cave.item.type
+			"\nObstacle: " + (cave.obstacle.name = "nones") + 
+			"\nItem: " + (cave.item.type = "nones")
 			);
+}
+
+function room(cave, player){
+	alert("You enter a new room.");
+	if (cave.obstacle.name){
+		alert("You encounter " + cave.obstacle.name + "!");
+	}
+	if (cave.item.type){
+		alert("You got " + cave.item.type + "!");
+		if (cave.item.goldEarned){
+			alert("Gold increased by " + cave.item.goldEarned);
+			player.addGold(cave.item.goldEarned);
+		}
+		if (cave.item.healthIncrease){
+			alert("Regained " + cave.item.healthIncrease + " health!");
+			player.addHealth(cave.item.healthIncrease);
+		}
+		if (cave.item.intelligenceIncrease){
+			alert("Intelligence raised by " + cave.item.intelligenceIncrease + "!");
+			player.intelligence += cave.item.intelligenceIncrease;
+		}
+		if (cave.item.dexterityIncrease){
+			alert("Dexteriry raised by " + cave.item.dexterityIncreaseIncrease + "!");
+			player.dexterity += cave.item.dexterityIncrease;
+		}
+		if (cave.item.toughnessIncrease){
+			alert("Toughness raised by " + cave.item.toughnessIncrease + "!");
+			player.toughness += cave.item.toughnessIncrease;
+		}
+		
+	}
 }
 
 function getRandomNumber()
@@ -752,6 +792,4 @@ function setItem(randomNumber, hasItem)
 }
 
 
-//runGame();
-
-//startGame();
+startGame();
