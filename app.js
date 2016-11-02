@@ -603,7 +603,6 @@ function iRSmrt(player, difficulty, goldLost){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-////--ignore roomArray for now--////
 var roomArray = 
 [
 
@@ -611,14 +610,10 @@ var roomArray =
 
 function Room()
 	{
-		// this.name = name,
 		this.hasObstacle = null,
 		this.obstacle = {},
 		this.hasItem = null,
 		this.item = {}
-		// function getRoomName(){
-			// return this.name;
-		// }
 	};
 
 var obstacles = 
@@ -710,7 +705,7 @@ var items =
 		attributeIncrease: 0 },
 	{
 		id: "5",
-		name: "Scholarly Tome", //increases intelligence attribute
+		name: "Scholarly Tome",
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 3,
@@ -718,7 +713,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "6",
-		name: "Mithril Coat", //increases toughness attribute
+		name: "Mithril Coat", 
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -726,7 +721,7 @@ var items =
 		toughnessIncrease : 3 },
 	{
 		id: "7",
-		name: "Magic Gloves", //increases dexterity attribute
+		name: "Magic Gloves",
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -734,7 +729,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "8",
-		name: "Scientific Journal", //increases intelligence
+		name: "Scientific Journal",
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 1,
@@ -742,7 +737,7 @@ var items =
 		toughnessIncrease : 0 },
 	{
 		id: "9",
-		name: "Special Helmet", //increases toughness
+		name: "Special Helmet",
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -750,7 +745,7 @@ var items =
 		toughnessIncrease : 1 },
 	{
 		id: "10",
-		name: "Stretchy Pants", //increases dexterity
+		name: "Stretchy Pants",
 		goldEarned: 0,
 		healthIncrease: 0,
 		intelligenceIncrease: 0,
@@ -781,9 +776,9 @@ function createRoom()
 {
 	var cave = new Room();
 	cave.hasObstacle = setObstacleProbability(getRandomNumber());
-	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle)
+	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle);
 	cave.hasItem = setItemProbability(getRandomNumber());
-	cave.item = setItem(getRandomNumber(), cave.hasItem)
+	cave.item = setItem(getRandomNumber(), cave.hasItem);
 	return cave;
 }
 
@@ -796,7 +791,8 @@ function enterRoom(cave)
 			);
 }
 
-function room(cave, player){
+function room(cave, player)
+{
 	alert("You enter a new room.");
 	if (cave.obstacle){
 		if (cave.obstacle.id != 3){
@@ -836,7 +832,6 @@ function room(cave, player){
 			alert("Toughness raised by " + cave.item.toughnessIncrease + "!");
 			player.toughness += cave.item.toughnessIncrease;
 		}
-		
 	}
 	if (!cave.obstacle && !cave.item){
 		alert("The room is empty, just like your future.");
@@ -895,6 +890,5 @@ function setItem(randomNumber, hasItem)
 		return items[itemSelection];
 	}
 }
-
 
 startGame();
