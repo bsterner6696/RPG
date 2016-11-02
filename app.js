@@ -3,6 +3,7 @@ function Player(name){
 	var score = 0;
 	var health = 100;
 	this.playerType = "";
+	this.gameOver = false;
 	this.addGold = function(amount){
 		if(score + amount < 0){
 			score = 0;
@@ -15,7 +16,7 @@ function Player(name){
 	this.decHealth = function(damage){
 		if(health - damage <= 0){
 			health = 0;
-			this.gameOver();
+			this.gameOver = true;
 		}
 		else{
 			health -= damage;
@@ -29,18 +30,20 @@ function Player(name){
 			health += potion;
 		}
 	};
-	this.getHealth = function(){return health;};
-	this.gameOver = function(){
-		alert("You died. \n Final score:" + score);
+	this.getHealth = function(){return health;
+	}
+}
+
+function gameOver(player){
+	alert("After clearing the last room you succumbed to your injuries and died. \n Final score:" + player.getGold());
 		var playAgain = prompt("Would you like to play again, yes or no?");
-		if(playAgain.toLowerCase() == "yes"){
+		if(playAgain.toLowerCase() === "yes"){
 			startGame();
 		}
 		else{
 			alert("Thanks for playing!");
 			window.close();			
 		}
-	}
 }
 
 function startGame(){
@@ -49,12 +52,6 @@ function startGame(){
 	var player = getPlayerType(name);
 	runGame(player);
 
-	alert(player.toughness);
-	alert(player.name);
-	alert(player.getGold());
-	alert(player.getHealth());
-	player.addGold(100);
-	player.decHealth(100);
 }
 
 function gameOver(player){
@@ -546,15 +543,22 @@ function feud(questions, player){
 			player.addGold(feudQuestion.gold8);
 		}
 		else {
-			var damage = takeDamage(player, 30);
-			alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.  You take " + damage + " damage.")
+			
+			alert("Steve Harvey gestures to a glowing board on the wall.  A buzzer sounds and a red X appears.  Steve Harvey smacks you upside the head before vanishing into thin air.");
+			var damage = takeDamage(player, 200);
+			alert("You take " + damage + " damage.");
+			
 		}
+	}
+	else{
+		alert("'Don't you try to walk away from me!' \n Steve Harvey shouts at you.  He smacks you upside the head before vanishing into thin air.");
+		var damage = takeDamage(player, 200);
+		alert("You take " + damage + " damage.");
 	}
 }
 function playTheFeud(player) {
 	var args = [player];
-	var play = playFeud.apply(args);
-	play();
+	playFeud.apply(null, args);
 	
 }
 var playFeud = feud.bind(null, feudQuestions);
@@ -568,6 +572,31 @@ function takeDamage(player, maxDamage){
 			}
 		player.decHealth(damage);
 		return damage;
+}
+
+function avoid(player, avoidability, maxDamage, goldLost){
+	var avoided = Math.floor(Math.random() * avoidability);
+			if (player.dexterity >= avoided){
+				alert("You dodged it!");
+				return 0;
+			}else{
+				player.addGold(goldLost);
+				alert("You lost " + (goldLost * -1) + " gold!");
+				var damage = takeDamage(player, maxDamage);
+				return damage;
+			}
+}
+
+function iRSmrt(player, difficulty, goldLost){
+	var outsmarted = Math.floor(Math.random() * difficulty);
+			if (player.intelligence >= outsmarted){
+				alert("You outsmarted it! You got " + (goldLost * -1) + " gold!");
+				player.addGold(goldLost * -1);
+			}else{
+				player.addGold(goldLost);
+				alert("U dum.  You lost " + (goldLost * -1) + " gold.");
+			}
+	
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -598,52 +627,59 @@ var obstacles =
 		id: "1",
 		name: "Loki",
 		goldLost: -25,
-		damageCaused: 0 },
+		damageCaused: 60,
+		avoidability: 20 },
 	{
 		id: "2",
 		name: "Smaug",
 		goldLost: -40,
-		damageCaused: 20 },
+		damageCaused: 80,
+		avoidability: 50 },
 	{
 		id: "3",
-		name: "Uruk-Hai",
-		goldLost: -5,
-		damageCaused: 13 },
+		name: "Steve Harvey" },
 	{
 		id: "4",
 		name: "Balrog",
 		goldLost: -1,
-		damageCaused: 24 },
+		damageCaused: 76,
+		avoidability: 60 },
 	{
 		id: "5",
 		name: "Giant Bear Trap",
 		goldLost: 0,
-		damageCaused: 5 },
+		damageCaused: 30,
+		avoidability: 15 },
 	{
 		id: "6",
 		name: "Pack of Rabid Weasels",
 		goldLost: -3,
-		damageCaused: 9 },
+		damageCaused: 40,
+		avoidability: 30 },
 	{
 		id: "7",
 		name: "Trogdor",
 		goldLost: 0,
-		damageCaused: 19 },
+		damageCaused: 100,
+		avoidability: 100 },
 	{
 		id: "8",
 		name: "Liquid Hot Mag-ma",
 		goldLost: -5,
-		damageCaused: 12 },
+		damageCaused: 50,
+		avoidability: 25 },
 	{
 		id: "9",
 		name: "Stephen the Sphinx",
 		goldLost: -18,
-		damageCaused: 5 },
+		damageCaused: 0,
+		difficulty: 30 },
 	{
 		id: "10",
 		name: "Some Puzzle",
 		goldLost: -10,
-		damageCaused: 0 },
+		damageCaused: 0,
+		difficulty: 20 },
 ];
 
 var items = 
@@ -651,26 +687,26 @@ var items =
 	{
 		id: "1",
 		name: "Gold Coin",
-		goldEarned: 10,
+		goldEarned: 100,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "2",
 		name: "Gold Nugget",
-		goldEarned: 15,
+		goldEarned: 150,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "3",
 		name: "Golden Shower",
-		goldEarned: 25,
+		goldEarned: 250,
 		healthIncrease: 0,
 		attributeIncrease: 0 },
 	{
 		id: "4",
 		name: "Elixer of Life",
 		goldEarned: 0,
-		healthIncrease: 10,
+		healthIncrease: 50,
 		attributeIncrease: 0 },
 	{
 		id: "5",
@@ -725,29 +761,29 @@ var items =
 function runGame(player)
 {
 	alert("Welcome to the Thunder Dome, betch!");
-	// while(true) //while(player.health > 0)
-	// {
-		// enterRoom(createRoom(cave));
-	// }
-	
-	room(createRoom(getRoomName()), player);
+	var roomNumber = 0;
+	while (!player.gameOver){
+	roomNumber += 1;
+	if (roomNumber < 100){
+	room(createRoom(), player);
+	alert("Room " + roomNumber + " Cleared! \n You have " + player.getGold() + " gold and " + player.getHealth() + " health, " + player.dexterity + " dexterity, " + player.toughness + " toughness, and " + player.intelligence + " intelligence.");
+	}
+	else{
+		alert("You enter into a large ornate amphitheatre.  Steve Harvey stands in the center of it. \n \n 'Congratulations, you have made it to the final room, now you can face me in combat'.  \n \n Steve Harvey proceeds to absolutely obliterate you and crap on everything you know and love.");
+		player.decHealth(100000);
+	}
+	}
+	gameOver(player);
 
 }
-
-// function getRoomName()
-// {
-	// var roomname = prompt("You are about to enter a room. What is the name of this room? ");
-	// return roomname;
-// }
 
 function createRoom()
 {
 	var cave = new Room();
-	roomArray.push(cave);
 	cave.hasObstacle = setObstacleProbability(getRandomNumber());
-	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle) || "No obstacle present in this room!";
+	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle)
 	cave.hasItem = setItemProbability(getRandomNumber());
-	cave.item = setItem(getRandomNumber(), cave.hasItem) || "No item found in this room!";
+	cave.item = setItem(getRandomNumber(), cave.hasItem)
 	return cave;
 }
 
@@ -762,11 +798,24 @@ function enterRoom(cave)
 
 function room(cave, player){
 	alert("You enter a new room.");
-	if (cave.obstacle.name){
+	if (cave.obstacle){
+		if (cave.obstacle.id != 3){
 		alert("You encounter " + cave.obstacle.name + "!");
+		if (cave.obstacle.id != 9 && cave.obstacle.id != 10){
+			var damage = avoid(player, cave.obstacle.avoidability, cave.obstacle.damageCaused, cave.obstacle.goldLost);
+			alert("You took " + damage + " damage!");
+		}
+		else {
+			iRSmrt(player, cave.obstacle.difficulty, cave.obstacle.goldLost);
+		}
+		}
+		else {
+			playTheFeud(player);
+		}
+		
 	}
-	if (cave.item.type){
-		alert("You got " + cave.item.type + "!");
+	if (cave.item){
+		alert("The room contains a treasure chest.  in the chest you find: " + cave.item.name + "!");
 		if (cave.item.goldEarned){
 			alert("Gold increased by " + cave.item.goldEarned);
 			player.addGold(cave.item.goldEarned);
@@ -780,7 +829,7 @@ function room(cave, player){
 			player.intelligence += cave.item.intelligenceIncrease;
 		}
 		if (cave.item.dexterityIncrease){
-			alert("Dexteriry raised by " + cave.item.dexterityIncreaseIncrease + "!");
+			alert("Dexterity raised by " + cave.item.dexterityIncrease + "!");
 			player.dexterity += cave.item.dexterityIncrease;
 		}
 		if (cave.item.toughnessIncrease){
@@ -788,6 +837,9 @@ function room(cave, player){
 			player.toughness += cave.item.toughnessIncrease;
 		}
 		
+	}
+	if (!cave.obstacle && !cave.item){
+		alert("The room is empty, just like your future.");
 	}
 }
 
