@@ -54,18 +54,6 @@ function startGame(){
 
 }
 
-function gameOver(player){
-	alert("You died. \n Final score:" + player.getGold());
-	var playAgain = prompt("Would you like to play again, yes or no?");
-	if(playAgain.toLowerCase == "yes"){
-		startGame();
-	}
-	else{
-		alert("Thanks for playing!");
-		window.close();
-	}
-}
-
 function getPlayerType(name){
 	var choice;
 	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.")
