@@ -36,14 +36,14 @@ function Player(name){
 
 function gameOver(player){
 	alert("After clearing the last room you succumbed to your injuries and died. \n Final score:" + player.getGold());
-		var playAgain = prompt("Would you like to play again, yes or no?");
-		if(playAgain.toLowerCase() === "yes"){
-			startGame();
-		}
-		else{
-			alert("Thanks for playing!");
-			window.close();			
-		}
+	var playAgain = prompt("Would you like to play again, yes or no?");
+	if(playAgain.toLowerCase() === "yes"){
+		startGame();
+	}
+	else{
+		alert("Thanks for playing!");
+		window.close();			
+	}
 }
 
 function startGame(){
@@ -56,7 +56,7 @@ function startGame(){
 
 function getPlayerType(name){
 	var choice;
-	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.")
+	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.");
 	switch (type.toLowerCase()){
 		case "1":
 		case "mage":
@@ -768,15 +768,6 @@ function createRoom()
 	cave.hasItem = setItemProbability(getRandomNumber());
 	cave.item = setItem(getRandomNumber(), cave.hasItem);
 	return cave;
-}
-
-function enterRoom(cave)
-{
-	alert("Does this room have an obstacle? " + cave.hasObstacle + 
-			"\nDoes this room have an item? " + cave.hasItem +
-			"\nObstacle: " + cave.obstacle.name + 
-			"\nItem: " + cave.item.name
-			);
 }
 
 function room(cave, player)
