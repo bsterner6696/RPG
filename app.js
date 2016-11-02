@@ -4,12 +4,11 @@ function Player(name){
 	this.name = name;
 	var score = 0;
 	var health = 100;
-	this.color = "brown";
 	this.playerType = "";
 	this.getGold = function(){return this.score;};
 	this.decHealth = function(damage){this.health -= damage;};
 	this.addHealth = function(potion){this.health += potion;};
-	
+	this.getHealth = function(){return this.health;};
 }
 
 function startGame(){
