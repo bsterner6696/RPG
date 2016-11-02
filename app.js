@@ -1,81 +1,99 @@
-function Player(){
-	name: prompt("What is your name?");
+"use strict";
+
+function Player(name){
+	this.name = name;
 	var score = 0;
 	var health = 100;
-	playerType: "";
-	function addGold(amount){score += amount;};
-	function getGold(){return score;};
-	function decHealth(damage){health -= damage;};
-	function addHealth(potion){health += potion;};
+	this.color = "brown";
+	this.playerType = "";
+	this.getGold = function(){return this.score;};
+	this.decHealth = function(damage){this.health -= damage;};
+	this.addHealth = function(potion){this.health += potion;};
 	
 }
 
 function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
-	var player = new Player();
-	getPlayerType(player)
+	var name = prompt("What is your name?");
+	var player = getPlayerType(name);
+	alert(player.toughness);
+	alert(player.name);
 }
 
-function getPlayerType(player){
+function getPlayerType(name){
 	var choice;
 	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.")
-	switch (type){
+	switch (type.toLowerCase()){
 		case "1":
+		case "mage":
 			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk. \n Do you want to be a mage?");
-			if (choice.toLowerCase() === "yes"){
-				player.playerType = "mage";
-				Object.assign(player, new Mage());
-				var args = [player]
-				var playTheFeud = playFeud.apply(args);
-				playTheFeud();
+			if (choice.toLowerCase() === "yes"){				
+				var player1 = new Mage(name);
+				player1.playerType = "mage";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		case "2":
+		case "fighter":
 			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction. \n Do you want to be a fighter?");
 			if (choice.toLowerCase() === "yes"){
-				player.playerType = "fighter";
-				Object.assign(player, new Fighter());
+				var player1 = new Fighter(name);
+				player1.playerType = "fighter";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		case "3":
+		case "thief":
 			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus. \n Do you want to be a thief?");
 			if (choice.toLowerCase() === "yes"){
-				player.playerType = "thief";
-				Object.assign(player, new Thief());
+				var player1 = new Thief(name);
+				player1.playerType = "thief";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		default:
-			getPlayerType();
+			var player1 = getPlayerType(name);
+			return player1;
 			break;
 	}
 }
 
-function Mage(){
-	dexterity = 3
-	intelligence = 10
-	toughness = 2
+function Mage(name){
+	Player.call(this, name);
+	this.dexterity = 3;
+	this.intelligence = 10;
+	this.toughness = 2;
 }
 
-function Fighter(){
-	dexterity = 5
-	intelligence = 2
-	toughness = 10
+function Fighter(name){
+	Player.call(this, name);
+	this.dexterity = 5;
+	this.intelligence = 2;
+	this.toughness = 10;
 }
 
-function Thief(){
-	dexterity = 10
-	intelligence = 5
-	toughness = 3
+function Thief(name){
+	Player.call(this, name);
+	this.dexterity = 10;
+	this.intelligence = 5;
+	this.toughness = 3;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 var feudQuestions = [{
 	question : "Name a kind of tree that streets are named after",
@@ -497,4 +515,233 @@ function takeDamage(player, maxDamage){
 		player.decHealth(damage);
 		return damage;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////--ignore roomArray for now--////
+var roomArray = 
+[
+	{
+		"name": "theThunderDome",
+		"hasObstacle": "true",
+		"obstacle": "",
+		"hasItem": "true",
+		"item": "",
+	}
+];
+
+var cave =
+	{
+		"name": "theThunderDome",
+		"hasObstacle": true,
+		"obstacle": "",
+		"hasItem": true,
+		"item": "",
+		"name2" : function setRoomName(roomname){
+			return roomname;
+		}
+	};
+
+var obstacles = 
+[
+	{
+		"id": "1",
+		"name": "loki",
+		"goldLost": 25,
+		"damageCaused": 0 },
+	{
+		"id": "2",
+		"name": "smaug",
+		"goldLost": 40,
+		"damageCaused": 20 },
+	{
+		"id": "3",
+		"name": "urukHai",
+		"goldLost": 5,
+		"damageCaused": 13 },
+	{
+		"id": "4",
+		"name": "balrog",
+		"goldLost": 1,
+		"damageCaused": 24 },
+	{
+		"id": "5",
+		"name": "giantBearTrap",
+		"goldLost": 0,
+		"damageCaused": 5 },
+	{
+		"id": "6",
+		"name": "packOfRabidWeasels",
+		"goldLost": 3,
+		"damageCaused": 9 },
+	{
+		"id": "7",
+		"name": "trogdor",
+		"goldLost": 0,
+		"damageCaused": 19 },
+	{
+		"id": "8",
+		"name": "liquidHotMagma",
+		"goldLost": 5,
+		"damageCaused": 12 },
+	{
+		"id": "9",
+		"name": "sphinx",
+		"goldLost": 18,
+		"damageCaused": 5 },
+	{
+		"id": "10",
+		"name": "puzzle",
+		"goldLost": 10,
+		"damageCaused": 0 },
+];
+
+var items = 
+[
+	{
+		"id": "1",
+		"type": "goldCoin",
+		"goldEarned": 10,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "2",
+		"type": "goldNugget",
+		"goldEarned": 15,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "3",
+		"type": "goldenShower",
+		"goldEarned": 25,
+		"heathIncrease": 0,
+		"attributeIncrease": 0 },
+	{
+		"id": "4",
+		"type": "elixer",
+		"goldEarned": 0,
+		"heathIncrease": 10,
+		"attributeIncrease": 0 },
+	{
+		"id": "5",
+		"type": "tome", //increases intelligence attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "6",
+		"type": "mithril", //increases toughness attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "7",
+		"type": "magicGloves", //increases dexterity attribute
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 3 },
+	{
+		"id": "8",
+		"type": "scientificJournalEntry", //increases intelligence
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+	{
+		"id": "9",
+		"type": "helmet", //increases toughness
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+	{
+		"id": "10",
+		"type": "stretchPants", //increases dexterity
+		"goldEarned": 0,
+		"heathIncrease": 0,
+		"attributeIncrease": 1 },
+];
+
+function runGame()
+{
+	alert("Welcome to the Thunder Dome, betch.");
+	
+	while(true) //while(player.health > 0)
+	{
+		enterRoom(createRoom());
+	}
+}
+
+function createRoom()
+{
+	var currentRoom = cave;
+	var roomname = prompt("Please set the name of the room you are entering: ");
+	currentRoom.setRoomName(roomname);
+	currentRoom.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
+	currentRoom.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
+	return currentRoom;
+}
+
+function enterRoom(currentRoom)
+{
+	alert(currentRoom.obstacle.name);
+	alert(currentRoom.item.type);
+}
+
+function getRandomNumber()
+{
+	return Math.random();
+}
+
+function setObstacleProbability(randomNumber)
+{
+	var hasObstacleProbability = (randomNumber * 100).toFixed(1);
+	
+	if(hasObstacleProbability >= 50)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function setItemProbability(randomNumber)
+{
+	var hasItemProbability = (randomNumber * 100).toFixed(1);
+	
+	if(hasItemProbability >= 50)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+function setObstacle(randomNumber, hasObstacle)
+{
+	var obstacleSelection = Math.floor(randomNumber * 10);
+	
+	if(hasObstacle)
+	{
+		return obstacles[obstacleSelection];
+	}
+}
+
+function setItem(randomNumber, hasItem)
+{
+	var itemSelection = Math.floor(randomNumber * 10);
+	
+	if(hasItem)
+	{
+		return items[itemSelection];
+	}
+}
+
+
+//runGame();
+
 startGame();
