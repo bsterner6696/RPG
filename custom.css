@@ -12,7 +12,7 @@ body {
 }
 
 .jumbotron {
-	background: rgba(200, 54, 54, 0.0);
+	background: rgba(0, 0, 0, 0.0);
 	padding: 0.5em;
 	text-align: center;
 	font-family: 'UnifrakturCook', cursive;

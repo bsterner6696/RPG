@@ -753,6 +753,16 @@ var items =
 		toughnessIncrease : 0 },
 ];
 
+var obstacleImages = 
+[
+
+];
+
+var itemImages = 
+[
+
+];
+
 function runGame(player)
 {
 	alert("Welcome to the Thunder Dome, betch!");
