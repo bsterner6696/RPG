@@ -683,9 +683,9 @@ function createRoom()
 	var cave = new Room();
 	roomArray.push(cave);
 	cave.hasObstacle = setObstacleProbability(getRandomNumber());
-	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle) || "No obstacle present in this room!";
+	cave.obstacle = setObstacle(getRandomNumber(), cave.hasObstacle);
 	cave.hasItem = setItemProbability(getRandomNumber());
-	cave.item = setItem(getRandomNumber(), cave.hasItem) || "No item found in this room!";
+	cave.item = setItem(getRandomNumber(), cave.hasItem);
 	return cave;
 }
 
