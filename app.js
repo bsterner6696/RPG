@@ -466,7 +466,7 @@ function feud(questions, player){
 	if (answer){
 		if (answer.toUpperCase() === feudQuestion.answer1.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
-			player.score += feudQuestion.gold1;
+			player.addGold(feudQuestion.gold1);
 		}
 		else if (answer.toUpperCase() === feudQuestion.answer2.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
