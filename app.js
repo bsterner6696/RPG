@@ -755,13 +755,19 @@ var items =
 
 var obstacleImages = 
 [
-
+	themeDisplay.getPathThemeImage('images/loki-purses') + '/',
+	
 ];
 
 var itemImages = 
 [
-
+	
 ];
+
+function displayImage()
+{
+	document.getElementById("imageDiv").backgroundImage = 'url(images/loki-purses)';
+}
 
 function runGame(player)
 {
