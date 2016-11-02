@@ -5,9 +5,10 @@ function Player(name){
 	var score = 0;
 	var health = 100;
 	this.playerType = "";
-	this.getGold = function(){return this.score;};
-	this.decHealth = function(damage){this.health -= damage;};
-	this.addHealth = function(potion){this.health += potion;};
+	this.getGold = function(){return score;};
+	this.getHealth = function(){return health};
+	this.decHealth = function(damage){health -= damage;};
+	this.addHealth = function(potion){health += potion;};
 	
 }
 
@@ -17,6 +18,7 @@ function startGame(){
 	var player = getPlayerType(name);
 	alert(player.toughness);
 	alert(player.name);
+	alert(player.getGold());
 }
 
 function getPlayerType(name){
@@ -501,7 +503,12 @@ function feud(questions, player){
 		}
 	}
 }
-
+function playTheFeud(player) {
+	var args = [player];
+	var play = playFeud.apply(args);
+	play();
+	
+}
 var playFeud = feud.bind(null, feudQuestions);
 
 function takeDamage(player, maxDamage){
