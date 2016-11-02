@@ -731,7 +731,6 @@ function runGame(player)
 	// }
 	
 	room(createRoom(), player);
-
 }
 
 // function getRoomName()
@@ -781,15 +780,16 @@ function room(cave, player)
 			player.intelligence += cave.item.intelligenceIncrease;
 		}
 		if (cave.item.dexterityIncrease){
-			alert("Dexteriry raised by " + cave.item.dexterityIncreaseIncrease + "!");
+			alert("Dexterity raised by " + cave.item.dexterityIncreaseIncrease + "!");
 			player.dexterity += cave.item.dexterityIncrease;
 		}
 		if (cave.item.toughnessIncrease){
 			alert("Toughness raised by " + cave.item.toughnessIncrease + "!");
 			player.toughness += cave.item.toughnessIncrease;
 		}
-		
 	}
+	var damageTaken = takeDamage(player, cave.obstacle.damageCaused);
+	alert(cave.obstacle.name + " hurt you by " + damageTaken + " health points!");
 }
 
 function getRandomNumber()
