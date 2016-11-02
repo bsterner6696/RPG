@@ -1,77 +1,90 @@
-"use strict";
-
-function Player(){
-	name: prompt("What is your name?");
+function Player(name){
+	this.name = name;
 	var score = 0;
 	var health = 100;
-	playerType: null;
-	function addGold(amount){score += amount;};
-	function getGold(){return score;};
-	function decHealth(damage){health -= damage;};
-	function addHealth(potion){health += potion;};
-	
+	this.playerType = "";
+	this.addGold = function(amount){score += amount;};
+	this.getGold = function(){return score;};
+	this.decHealth = function(damage){health -= damage;};
+	this.addHealth = function(potion){health += potion;};
+	this.getHealth = function(){return health;};
 }
 
 function startGame(){
 	alert("You awake in a strange, dimly-lit room. Suddenly, you see an ominous, floating mustache. \n \'Hello, we're going to play a game. Try not to die.\'");
-	var player = new Player();
-	getPlayerType(player)
+	var name = prompt("What is your name?");
+	var player = getPlayerType(name);
 	alert(player.toughness);
+	alert(player.name);
+	alert(player.getHealth());
 }
 
-function getPlayerType(player){
+function getPlayerType(name){
 	var choice;
 	var type = prompt("There are 3 different player classes. \n 1: Mage \n 2: Fighter \n 3: Thief \n To learn more about a class, enter the number.")
-	switch (type){
+	switch (type.toLowerCase()){
 		case "1":
+		case "mage":
 			choice = prompt("The mage is very wise and can solve puzzles. However, he is fragile and always drunk. \n Do you want to be a mage?");
-			if (choice.toLowerCase() === "yes"){
-				player.playerType = "mage";
-				return player = Object.assign(player, new Mage());
+			if (choice.toLowerCase() === "yes"){				
+				var player1 = new Mage(name);
+				player1.playerType = "mage";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		case "2":
+		case "fighter":
 			choice = prompt("The fighter is tough and strong, but not the smartest. He gets a damage reduction. \n Do you want to be a fighter?");
 			if (choice.toLowerCase() === "yes"){
-				player.playerType = "fighter";
-				return player = Object.assign(player, new Fighter());
+				var player1 = new Fighter(name);
+				player1.playerType = "fighter";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		case "3":
+		case "thief":
 			choice = prompt("The thief is quick and cunning. He is able to detect traps, and gets a gold bonus. \n Do you want to be a thief?");
 			if (choice.toLowerCase() === "yes"){
-				player.playerType = "thief";
-				return player = Object.assign(player, new Thief());
+				var player1 = new Thief(name);
+				player1.playerType = "thief";
+				return player1;
 			}
 			else{
-				getPlayerType();
+				var player1 = getPlayerType(name);
+				return player1;
 			}
 			break;
 		default:
-			getPlayerType();
+			var player1 = getPlayerType(name);
+			return player1;
 			break;
 	}
 }
 
-function Mage(player){
+function Mage(name){
+	Player.call(this, name);
 	this.dexterity = 3;
 	this.intelligence = 10;
 	this.toughness = 2;
 }
 
-function Fighter(){
+function Fighter(name){
+	Player.call(this, name);
 	this.dexterity = 5;
 	this.intelligence = 2;
 	this.toughness = 10;
 }
 
-function Thief(){
+function Thief(name){
+	Player.call(this, name);
 	this.dexterity = 10;
 	this.intelligence = 5;
 	this.toughness = 3;
@@ -445,45 +458,42 @@ var feudQuestions = [{
 	
 ];
 
-function feud(questions, player, fireball){
-	var feudQuestionIndex = (Math.Random() * questions.length).floor();
+function feud(questions, player){
+	var feudQuestionIndex = Math.floor(Math.random() * questions.length);
 	var feudQuestion = questions[feudQuestionIndex];
 	var answer = prompt("A lone figure emerges from the shadows.  You realize it is Steve Harvey, of the hit game show family feud.  His moustache is glorious.  He looks you in the eye and says \n \n'" + feudQuestion.question + "'");
 	if (answer){
-		if (answer.ToUpperCase() === feudQuestion.answer1.ToUpperCase()){
+		if (answer.toUpperCase() === feudQuestion.answer1.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold1 + " gold.");
 			player.score += feudQuestion.gold1;
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer2.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer2.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold2 + " gold.");
-			player.score += feudQuestion.gold2;
+			player.addGold(feudQuestion.gold2);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer3.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer3.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold3 + " gold.");
-			player.score += feudQuestion.gold3;
+			player.addGold(feudQuestion.gold3);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer4.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer4.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold4 + " gold.");
-			player.score += feudQuestion.gold4;
+			player.addGold(feudQuestion.gold4);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer5.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer5.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold5 + " gold.");
-			player.score += feudQuestion.gold5;
+			player.addGold(feudQuestion.gold5);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer6.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer6.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold6 + " gold.");
-			player.score += feudQuestion.gold6;
+			player.addGold(feudQuestion.gold6);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer7.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer7.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold7 + " gold.");
-			player.score += feudQuestion.gold7;
+			player.addGold(feudQuestion.gold7);
 		}
-		else if (answer.ToUpperCase() === feudQuestion.answer8.ToUpperCase()){
+		else if (answer.toUpperCase() === feudQuestion.answer8.toUpperCase()){
 			alert("Steve Harvey gestures to a glowing board on the wall.  It dings and your answer appears.  'Correct' a disembodied voice booms.  Steve Harvey vanishes into thin air. You gain " + feudQuestion.gold8 + " gold.");
-			player.score += feudQuestion.gold8;
-		}
-		else if (answer.ToUpperCase() === "CAST FIREBALL"){
-			fireball(player);
+			player.addGold(feudQuestion.gold8);
 		}
 		else {
 			var damage = takeDamage(player, 30);
@@ -492,14 +502,16 @@ function feud(questions, player, fireball){
 	}
 }
 
+var playFeud = feud.bind(null, feudQuestions);
+
 function takeDamage(player, maxDamage){
-	var damage = (Math.Random() * maxDamage).floor();
+	var damage = Math.floor(Math.random() * maxDamage);
 			if (player.toughness >= damage){
 				damage = 1;
 			}else{
 				damage = damage - player.toughness;
 			}
-		player.health -= damage;
+		player.decHealth(damage);
 		return damage;
 }
 
@@ -734,6 +746,6 @@ function setItem(randomNumber, hasItem)
 }
 
 
-runGame();
+//runGame();
 
 //startGame();
