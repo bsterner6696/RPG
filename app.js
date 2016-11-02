@@ -16,6 +16,7 @@ function startGame(){
 	var player = getPlayerType(name);
 	alert(player.toughness);
 	alert(player.name);
+	alert(player.getGold());
 	alert(player.getHealth());
 }
 
@@ -501,7 +502,12 @@ function feud(questions, player){
 		}
 	}
 }
-
+function playTheFeud(player) {
+	var args = [player];
+	var play = playFeud.apply(args);
+	play();
+	
+}
 var playFeud = feud.bind(null, feudQuestions);
 
 function takeDamage(player, maxDamage){
