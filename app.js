@@ -528,169 +528,174 @@ function takeDamage(player, maxDamage){
 ////--ignore roomArray for now--////
 var roomArray = 
 [
-	{
-		"name": "theThunderDome",
-		"hasObstacle": "true",
-		"obstacle": "",
-		"hasItem": "true",
-		"item": "",
-	}
+
 ];
 
-var cave =
+function Room(name)
 	{
-		"name": "theThunderDome",
-		"hasObstacle": true,
-		"obstacle": "",
-		"hasItem": true,
-		"item": "",
-		"name2" : function setRoomName(roomname){
-			return roomname;
+		this.name = name,
+		this.hasObstacle = true,
+		this.obstacle = {},
+		this.hasItem = true,
+		this.item = {},
+		function getRoomName(){
+			return this.name;
 		}
 	};
 
 var obstacles = 
 [
 	{
-		"id": "1",
-		"name": "loki",
-		"goldLost": 25,
-		"damageCaused": 0 },
+		id: "1",
+		name: "Loki",
+		goldLost: 25,
+		damageCaused: 0 },
 	{
-		"id": "2",
-		"name": "smaug",
-		"goldLost": 40,
-		"damageCaused": 20 },
+		id: "2",
+		name: "Smaug",
+		goldLost: 40,
+		damageCaused: 20 },
 	{
-		"id": "3",
-		"name": "urukHai",
-		"goldLost": 5,
-		"damageCaused": 13 },
+		id: "3",
+		name: "Uruk-Hai",
+		goldLost: 5,
+		damageCaused: 13 },
 	{
-		"id": "4",
-		"name": "balrog",
-		"goldLost": 1,
-		"damageCaused": 24 },
+		id: "4",
+		name: "Balrog",
+		goldLost: 1,
+		damageCaused: 24 },
 	{
-		"id": "5",
-		"name": "giantBearTrap",
-		"goldLost": 0,
-		"damageCaused": 5 },
+		id: "5",
+		name: "Giant Bear Trap",
+		goldLost: 0,
+		damageCaused: 5 },
 	{
-		"id": "6",
-		"name": "packOfRabidWeasels",
-		"goldLost": 3,
-		"damageCaused": 9 },
+		id: "6",
+		name: "Pack of Rabid Weasels",
+		goldLost: 3,
+		damageCaused: 9 },
 	{
-		"id": "7",
-		"name": "trogdor",
-		"goldLost": 0,
-		"damageCaused": 19 },
+		id: "7",
+		name: "Trogdor",
+		goldLost: 0,
+		damageCaused: 19 },
 	{
-		"id": "8",
-		"name": "liquidHotMagma",
-		"goldLost": 5,
-		"damageCaused": 12 },
+		id: "8",
+		name: "Liquid Hot Mag-ma",
+		goldLost: 5,
+		damageCaused: 12 },
 	{
-		"id": "9",
-		"name": "sphinx",
-		"goldLost": 18,
-		"damageCaused": 5 },
+		id: "9",
+		name: "Stephen the Sphinx",
+		goldLost: 18,
+		damageCaused: 5 },
 	{
-		"id": "10",
-		"name": "puzzle",
-		"goldLost": 10,
-		"damageCaused": 0 },
+		id: "10",
+		name: "Some Puzzle",
+		goldLost: 10,
+		damageCaused: 0 },
 ];
 
 var items = 
 [
 	{
-		"id": "1",
-		"type": "goldCoin",
-		"goldEarned": 10,
-		"heathIncrease": 0,
-		"attributeIncrease": 0 },
+		id: "1",
+		type: "Gold Coin",
+		goldEarned: 10,
+		healthIncrease: 0,
+		attributeIncrease: 0 },
 	{
-		"id": "2",
-		"type": "goldNugget",
-		"goldEarned": 15,
-		"heathIncrease": 0,
-		"attributeIncrease": 0 },
+		id: "2",
+		type: "Gold Nugget",
+		goldEarned: 15,
+		healthIncrease: 0,
+		attributeIncrease: 0 },
 	{
-		"id": "3",
-		"type": "goldenShower",
-		"goldEarned": 25,
-		"heathIncrease": 0,
-		"attributeIncrease": 0 },
+		id: "3",
+		type: "Golden Shower",
+		goldEarned: 25,
+		healthIncrease: 0,
+		attributeIncrease: 0 },
 	{
-		"id": "4",
-		"type": "elixer",
-		"goldEarned": 0,
-		"heathIncrease": 10,
-		"attributeIncrease": 0 },
+		id: "4",
+		type: "Elixer of Life",
+		goldEarned: 0,
+		healthIncrease: 10,
+		attributeIncrease: 0 },
 	{
-		"id": "5",
-		"type": "tome", //increases intelligence attribute
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 3 },
+		id: "5",
+		type: "Scholarly Tome", //increases intelligence attribute
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 3 },
 	{
-		"id": "6",
-		"type": "mithril", //increases toughness attribute
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 3 },
+		id: "6",
+		type: "Mithril Coat", //increases toughness attribute
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 3 },
 	{
-		"id": "7",
-		"type": "magicGloves", //increases dexterity attribute
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 3 },
+		id: "7",
+		type: "Magic Gloves", //increases dexterity attribute
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 3 },
 	{
-		"id": "8",
-		"type": "scientificJournalEntry", //increases intelligence
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 1 },
+		id: "8",
+		type: "Scientific Journal", //increases intelligence
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 1 },
 	{
-		"id": "9",
-		"type": "helmet", //increases toughness
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 1 },
+		id: "9",
+		type: "Special Helmet", //increases toughness
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 1 },
 	{
-		"id": "10",
-		"type": "stretchPants", //increases dexterity
-		"goldEarned": 0,
-		"heathIncrease": 0,
-		"attributeIncrease": 1 },
+		id: "10",
+		type: "Stretchy Pants", //increases dexterity
+		goldEarned: 0,
+		healthIncrease: 0,
+		attributeIncrease: 1 },
 ];
 
 function runGame()
 {
 	alert("Welcome to the Thunder Dome, betch.");
 	
-	while(true) //while(player.health > 0)
-	{
-		enterRoom(createRoom());
-	}
+	// while(true) //while(player.health > 0)
+	// {
+		// enterRoom(createRoom(cave));
+	// }
+	
+	enterRoom(createRoom(getRoomName()));
 }
 
-function createRoom()
+function getRoomName()
 {
-	var currentRoom = cave;
 	var roomname = prompt("Please set the name of the room you are entering: ");
-	currentRoom.setRoomName(roomname);
-	currentRoom.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
-	currentRoom.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
-	return currentRoom;
+	return roomname;
 }
 
-function enterRoom(currentRoom)
+function createRoom(roomname)
 {
-	alert(currentRoom.obstacle.name);
-	alert(currentRoom.item.type);
+	var cave = new Room(roomname);
+	roomArray.push(cave);
+	cave.obstacle = setObstacle(getRandomNumber(), setObstacleProbability(getRandomNumber()));
+	cave.item = setItem(getRandomNumber(), setItemProbability(getRandomNumber()));
+	return cave;
+}
+
+function enterRoom(cave)
+{
+	alert("Room name: " + cave.name + 
+			"\nDoes this room have an obstacle? " + cave.hasObstacle + 
+			"\nDoes this room have an item? " + cave.hasItem +
+			"\nObstacle: " + cave.obstacle + 
+			"\nItem: " + cave.item.type
+			);
 }
 
 function getRandomNumber()
@@ -749,4 +754,4 @@ function setItem(randomNumber, hasItem)
 
 //runGame();
 
-startGame();
+//startGame();
