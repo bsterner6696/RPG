@@ -1,15 +1,13 @@
-"use strict";
-
 function Player(name){
 	this.name = name;
 	var score = 0;
 	var health = 100;
 	this.playerType = "";
+	this.addGold = function(amount){score += amount;};
 	this.getGold = function(){return score;};
-	this.getHealth = function(){return health};
 	this.decHealth = function(damage){health -= damage;};
 	this.addHealth = function(potion){health += potion;};
-	
+	this.getHealth = function(){return health;};
 }
 
 function startGame(){
@@ -19,6 +17,7 @@ function startGame(){
 	alert(player.toughness);
 	alert(player.name);
 	alert(player.getGold());
+	alert(player.getHealth());
 }
 
 function getPlayerType(name){
