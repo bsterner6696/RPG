@@ -1,6 +1,22 @@
+/*
+font-family: 'Almendra', serif;
+font-family: 'UnifrakturCook', cursive;
+font-family: 'Uncial Antiqua', cursive;
+font-family: 'Cormorant Unicase', serif;
+*/
 
 body {
 	background-image: url(images/cave1.jpg);
 	background-repeat: no-repeat;
 	background-size: cover;
+}
+
+.jumbotron {
+	background: rgba(200, 54, 54, 0.0);
+	padding: 0.5em;
+	text-align: center;
+	font-family: 'UnifrakturCook', cursive;
+	font-size: 5em;
+	color: black;
+	-webkit-text-stroke: 1px white;
 }
